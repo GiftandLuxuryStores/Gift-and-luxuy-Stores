@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gifts & Luxury Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #b8973a;
+      --gold-light: #d4b96a;
+      --gold-pale: #f5e9c8;
+      --cream: #faf6f0;
+      --dark: #1a1612;
+      --charcoal: #2e2820;
+      --muted: #7a6f60;
+      --border: rgba(184,151,58,0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--dark);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(250,246,240,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--cream);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+      position: relative;
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    }
+
+    .hero-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 5.5vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s ease forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 420px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s ease forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.9s ease forwards;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--cream);
+      padding: 0.9rem 2.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary:hover { background: var(--charcoal); }
+
+    .btn-ghost {
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: none;
+      background: none;
+      font-family: 'Jost', sans-serif;
+      transition: color 0.3s;
+    }
+
+    .btn-ghost:hover { color: var(--gold); }
+
+    .btn-ghost::after {
+      content: '→';
+      transition: transform 0.3s;
+    }
+
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--charcoal);
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(184,151,58,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(184,151,58,0.08) 0%, transparent 50%);
+    }
+
+    .hero-img-frame {
+      position: relative;
+      width: 340px;
+      height: 420px;
+      border: 1px solid rgba(184,151,58,0.3);
+      opacity: 0;
+      animation: fadeIn 1.2s 1s ease forwards;
+    }
+
+    .hero-img-inner {
+      position: absolute;
+      inset: 16px;
+      background: linear-gradient(135deg, #2e2820 0%, #1a1612 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .gift-icon {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 30px rgba(184,151,58,0.4));
+    }
+
+    .hero-img-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      letter-spacing: 0.12em;
+      font-style: italic;
+    }
+
+    .hero-corner {
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .hero-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .hero-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .hero-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+    .hero-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.2s ease forwards;
+    }
+
+    .stat { text-align: center; }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,246,240,0.5);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--gold);
+      padding: 0.85rem 0;
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-item {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dark);
+      padding: 0 2.5rem;
+      flex-shrink: 0;
+    }
+
+    .marquee-dot {
+      color: var(--charcoal);
+      opacity: 0.5;
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--dark);
+    }
+
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    .section-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 1.5rem auto 0;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories {
+      padding: 7rem 6rem;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .cat-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+      group: true;
+    }
+
+    .cat-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s ease;
+    }
+
+    .cat-card:hover .cat-bg { transform: scale(1.06); }
+
+    .cat-bg-1 { background: linear-gradient(160deg, #2c1f12 0%, #4a3420 100%); }
+    .cat-bg-2 { background: linear-gradient(160deg, #1a1a2e 0%, #2d2d44 100%); }
+    .cat-bg-3 { background: linear-gradient(160deg, #1e2a1e 0%, #2d3d2d 100%); }
+    .cat-bg-4 { background: linear-gradient(160deg, #2a1a1a 0%, #3d2a2a 100%); }
+
+    .cat-glow {
+      position: absolute;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,151,58,0.2), transparent 70%);
+      top: 20%; left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .cat-emoji {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.5rem;
+      filter: drop-shadow(0 4px 20px rgba(184,151,58,0.3));
+      transition: transform 0.4s ease;
+    }
+
+    .cat-card:hover .cat-emoji { transform: translate(-50%, -55%) scale(1.1); }
+
+    .cat-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    }
+
+    .cat-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .cat-count {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .cat-arrow {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(184,151,58,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light);
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cat-card:hover .cat-arrow { opacity: 1; }
+
+    /* ── FEATURED ── */
+    .featured {
+      padding: 7rem 6rem;
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,151,58,0.06), transparent 70%);
+    }
+
+    .featured .section-title { color: var(--cream); }
+
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .prod-card {
+      background: rgba(250,246,240,0.04);
+      border: 1px solid rgba(184,151,58,0.15);
+      transition: all 0.4s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prod-card:hover {
+      border-color: rgba(184,151,58,0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .prod-img {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.2);
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prod-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(184,151,58,0.1), transparent 70%);
+    }
+
+    .prod-badge {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .prod-body { padding: 1.5rem; }
+
+    .prod-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .prod-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    .prod-desc {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: rgba(250,246,240,0.5);
+      margin-bottom: 1.2rem;
+    }
+
+    .prod-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .prod-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--gold-light);
+    }
+
+    .prod-add {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(184,151,58,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: transparent;
+    }
+
+    .prod-add:hover {
+      background: var(--gold);
+      color: var(--dark);
+      border-color: var(--gold);
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 7rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .services-left .section-header { text-align: left; }
+    .services-left .section-divider { margin: 1.5rem 0 0; }
+
+    .services-text {
+      margin-top: 2rem;
+      font-size: 0.92rem;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .services-list {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .service-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .service-item:hover {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+    }
+
+    .service-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .service-info h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+      color: var(--dark);
+    }
+
+    .service-info p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .services-right {
+      position: relative;
+    }
+
+    .services-visual {
+      position: relative;
+      background: var(--charcoal);
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .services-visual::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(184,151,58,0.15);
+      pointer-events: none;
+    }
+
+    .visual-icon { font-size: 5rem; }
+
+    .visual-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .visual-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .visual-gold-line {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0.5rem 0;
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial {
+      background: var(--gold-pale);
+      padding: 7rem 6rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--charcoal);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .testimonial-author {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1.5rem; }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      padding: 7rem 6rem;
+      background: var(--dark);
+      text-align: center;
+    }
+
+    .newsletter .section-title { color: var(--cream); }
+
+    .newsletter-sub {
+      font-size: 0.9rem;
+      color: rgba(250,246,240,0.5);
+      margin-top: 1rem;
+      line-height: 1.8;
+    }
+
+    .newsletter-form {
+      margin-top: 2.5rem;
+      display: flex;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      background: rgba(250,246,240,0.06);
+      border: 1px solid rgba(184,151,58,0.3);
+      border-right: none;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .newsletter-input::placeholder { color: rgba(250,246,240,0.3); }
+
+    .newsletter-input:focus { border-color: var(--gold); }
+
+    .newsletter-btn {
+      padding: 0.9rem 1.8rem;
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .newsletter-btn:hover { background: var(--gold-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      padding: 4rem 6rem 2rem;
+      border-top: 1px solid rgba(184,151,58,0.15);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(184,151,58,0.12);
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 1rem; text-decoration: none; }
+
+    .footer-desc {
+      font-size: 0.83rem;
+      line-height: 1.8;
+      color: rgba(250,246,240,0.4);
+    }
+
+    .footer-col h5 {
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col ul li { margin-bottom: 0.6rem; }
+
+    .footer-col ul a {
+      font-size: 0.83rem;
+      color: rgba(250,246,240,0.4);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-col ul a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(250,246,240,0.25);
+    }
+
+    .footer-socials { display: flex; gap: 1rem; }
+
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(184,151,58,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      color: rgba(250,246,240,0.4);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 4rem 2rem; }
+      .categories, .featured, .services, .newsletter, footer { padding-left: 2rem; padding-right: 2rem; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .prod-grid { grid-template-columns: 1fr; }
+      .services { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Gifts <span>&</span> Luxury</a>
+  <ul class="nav-links">
+    <li><a href="#">Collections</a></li>
+    <li><a href="#">Occasions</a></li>
+    <li><a href="#">Bespoke</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Shop Now</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">✦ Curated Luxury Gifts</span>
+    <h1 class="hero-title">Give Something<br><em>Truly</em><br>Extraordinary</h1>
+    <p class="hero-sub">Discover our handpicked collection of premium gifts and luxury items, crafted for those who appreciate the finest things in life.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Explore Collections</button>
+      <button class="btn-ghost">View Lookbook</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-img-frame">
+      <div class="hero-corner tl"></div>
+      <div class="hero-corner tr"></div>
+      <div class="hero-corner bl"></div>
+      <div class="hero-corner br"></div>
+      <div class="hero-img-inner">
+        <div class="gift-icon">🎁</div>
+        <div class="hero-img-label">The Art of Giving</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Curated Items</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">12k+</span>
+        <span class="stat-label">Happy Clients</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">Satisfaction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Free Gift Wrapping <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Same-Day Delivery Available <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Bespoke Engraving Service <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Worldwide Shipping <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Premium Packaging Included <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Personal Styling Consultations <span class="marquee-dot">◆</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Free Gift Wrapping <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Same-Day Delivery Available <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Bespoke Engraving Service <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Worldwide Shipping <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Premium Packaging Included <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Personal Styling Consultations <span class="marquee-dot">◆</span></span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="section-header">
+    <span class="section-tag">✦ Shop by Category</span>
+    <h2 class="section-title">Curated <em>Collections</em></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-1"></div>
+      <div class="cat-glow"></div>
+      <div class="cat-emoji">💍</div>
+      <div class="cat-info">
+        <span class="cat-name">Fine Jewellery</span>
+        <span class="cat-count">84 Items</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-2"></div>
+      <div class="cat-glow"></div>
+      <div class="cat-emoji">⌚</div>
+      <div class="cat-info">
+        <span class="cat-name">Luxury Watches</span>
+        <span class="cat-count">56 Items</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-3"></div>
+      <div class="cat-glow"></div>
+      <div class="cat-emoji">🍾</div>
+      <div class="cat-info">
+        <span class="cat-name">Fine Spirits</span>
+        <span class="cat-count">42 Items</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-4"></div>
+      <div class="cat-glow"></div>
+      <div class="cat-emoji">🌹</div>
+      <div class="cat-info">
+        <span class="cat-name">Gift Experiences</span>
+        <span class="cat-count">30 Items</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured">
+  <div class="section-header">
+    <span class="section-tag" style="color:var(--gold-light)">✦ Featured</span>
+    <h2 class="section-title">Most <em>Coveted</em></h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-img">
+        <span class="prod-badge">Bestseller</span>
+        💎
+      </div>
+      <div class="prod-body">
+        <span class="prod-category">Fine Jewellery</span>
+        <h3 class="prod-name">Diamond Solitaire Pendant</h3>
+        <p class="prod-desc">18k white gold setting with a 0.5ct brilliant-cut diamond. A timeless gift for any occasion.</p>
+        <div class="prod-footer">
+          <span class="prod-price">$1,250</span>
+          <button class="prod-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">
+        <span class="prod-badge">New Arrival</span>
+        🕯️
+      </div>
+      <div class="prod-body">
+        <span class="prod-category">Home & Décor</span>
+        <h3 class="prod-name">Artisan Amber Candle Set</h3>
+        <p class="prod-desc">Hand-poured soy wax candles in a bespoke crystal vessel, infused with rare amber and oud.</p>
+        <div class="prod-footer">
+          <span class="prod-price">$280</span>
+          <button class="prod-add">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img">
+        🍫
+      </div>
+      <div class="prod-body">
+        <span class="prod-category">Gourmet</span>
+        <h3 class="prod-name">Grand Chocolat Collection</h3>
+        <p class="prod-desc">64 pieces of single-origin artisan chocolates, presented in a lacquered keepsake box.</p>
+        <div class="prod-footer">
+          <span class="prod-price">$195</span>
+          <button class="prod-add">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="services-left">
+    <div class="section-header">
+      <span class="section-tag">✦ White Glove Experience</span>
+      <h2 class="section-title">Why Choose <em>Us</em></h2>
+      <div class="section-divider"></div>
+    </div>
+    <p class="services-text">Every gift tells a story. At Gifts & Luxury Store, we go beyond the ordinary to ensure each purchase becomes a cherished memory for both giver and receiver.</p>
+    <div class="services-list">
+      <div class="service-item">
+        <div class="service-icon">🎀</div>
+        <div class="service-info">
+          <h4>Complimentary Gift Wrapping</h4>
+          <p>Every order arrives beautifully presented in our signature packaging with hand-tied ribbon and personalised card.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">✍️</div>
+        <div class="service-info">
+          <h4>Bespoke Engraving & Monogramming</h4>
+          <p>Add a personal touch with custom engraving on select items — a detail that transforms a gift into an heirloom.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🚀</div>
+        <div class="service-info">
+          <h4>Express & Global Delivery</h4>
+          <p>Same-day delivery within the city and worldwide shipping to over 120 countries with real-time tracking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="services-right">
+    <div class="services-visual">
+      <div class="visual-icon">🛍️</div>
+      <div class="visual-gold-line"></div>
+      <div class="visual-title">The Gift of<br>Perfection</div>
+      <p class="visual-sub">Every item is personally inspected by our curatorial team before it ever reaches your doorstep.</p>
+      <button class="btn-primary" style="margin-top:1rem">Book a Consultation</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="stars">★★★★★</div>
+  <blockquote class="testimonial-quote">
+    "The presentation alone brought my mother to tears. I have never sent a gift from anywhere else since. Truly a cut above every other luxury retailer."
+  </blockquote>
+  <p class="testimonial-author">— Sophia R., Loyal Client since 2021</p>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="section-header">
+    <span class="section-tag" style="color:var(--gold-light)">✦ Stay in the Know</span>
+    <h2 class="section-title">Join Our <em>Inner Circle</em></h2>
+    <div class="section-divider"></div>
+  </div>
+  <p class="newsletter-sub">Be first to discover new arrivals, exclusive offers, and curated gift guides delivered to your inbox.</p>
+  <div class="newsletter-form">
+    <input class="newsletter-input" type="email" placeholder="Your email address" />
+    <button class="newsletter-btn">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">Gifts <span style="color:var(--gold)">&</span> Luxury</a>
+      <p class="footer-desc">Curating extraordinary gifts and luxury experiences for life's most meaningful moments since 2015.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <ul>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Bestsellers</a></li>
+        <li><a href="#">Gift Sets</a></li>
+        <li><a href="#">Bespoke Orders</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Occasions</h5>
+      <ul>
+        <li><a href="#">Birthdays</a></li>
+        <li><a href="#">Weddings</a></li>
+        <li><a href="#">Corporate</a></li>
+        <li><a href="#">Holidays</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Gifts & Luxury Store. All rights reserved.</p>
+    <div class="footer-socials">
+      <a class="social-btn" href="#">f</a>
+      <a class="social-btn" href="#">in</a>
+      <a class="social-btn" href="#">ig</a>
+      <a class="social-btn" href="#">✉️</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
